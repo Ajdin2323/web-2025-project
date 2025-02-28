@@ -8,8 +8,8 @@ class ProductService extends BaseService{
         parent::__construct(new ProductDao());
     }
 
-    public function get_all_products() {
-        return $this -> get();
+    public function get_all_products($size, $page) {
+        return $this -> dao -> get_all_products($size, $page);
     }
 }
 ?>

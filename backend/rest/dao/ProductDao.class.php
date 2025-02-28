@@ -6,8 +6,17 @@ class ProductDao extends BaseDao {
         parent::__construct("product");
     }
 
-    public function get_all_products() {
-        return $this->get();
+    public function get_all_products($size, $page) {
+        $size = (int) $size;
+        $offset = (int) (($page - 1) * $size); 
+    
+        $query = $this->connection->prepare("SELECT * FROM " . $this->table . " LIMIT :size OFFSET :offset");
+        $query->bindValue(":size", $size, PDO::PARAM_INT);
+        $query->bindValue(":offset", $offset, PDO::PARAM_INT);
+        
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }
 ?>
