@@ -14,5 +14,9 @@ Flight::route('GET /product/@id', function($id) {
 
 Flight::route('POST /product', function(){
     $data = Flight::request() -> data -> getData();
-    Flight::productService() -> add($data);
+    Flight::productService() -> add_product($data);
+});
+
+Flight::route('DELETE /product/@id', function($id) {
+    Flight::productService() -> delete_product($id);
 });

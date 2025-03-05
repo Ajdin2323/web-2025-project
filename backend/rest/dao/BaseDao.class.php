@@ -71,6 +71,7 @@ class BaseDao {
         $query = $this -> connection -> prepare("DELETE FROM " .$this -> table . " WHERE id = :id");
         $query -> bindParam(":id", $id);
         $query -> execute();
+        return Flight::json(["message" => $this -> table . " deleted successfully!"]);
     }
 }
 ?>
