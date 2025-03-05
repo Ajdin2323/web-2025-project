@@ -17,6 +17,10 @@ class ProductDao extends BaseDao {
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function get_product_by_id($id) {
+        return $this -> get_by_id($id);
+    }
     
 }
 ?>

@@ -11,5 +11,10 @@ class ProductService extends BaseService{
     public function get_all_products($size, $page) {
         return $this -> dao -> get_all_products($size, $page);
     }
+
+    public function get_product_by_id($id) {
+        return $this -> dao -> get_product_by_id($id);
+    }
+
 }
 ?>
