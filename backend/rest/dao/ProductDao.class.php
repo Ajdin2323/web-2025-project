@@ -22,5 +22,8 @@ class ProductDao extends BaseDao {
         return $this -> get_by_id($id);
     }
     
+    public function add_product($entity) {
+        return $this -> add($entity);
+    }
 }
 ?>

@@ -38,7 +38,7 @@ class BaseDao {
         $statement = $this->connection -> prepare($query);
         $statement -> execute($entity);
         $entity["id"] = $this->connection -> lastInsertId();
-        return $entity;
+        return Flight::json(["message" => $this -> table . " added successfully!"]);
     }
 
     public function get() {

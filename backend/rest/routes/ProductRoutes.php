@@ -11,3 +11,8 @@ Flight::route('GET /products(/@size(/@page))', function($size = null, $page = nu
 Flight::route('GET /product/@id', function($id) {
     Flight::json(Flight::productService() -> get_product_by_id($id));
 });
+
+Flight::route('POST /product', function(){
+    $data = Flight::request() -> data -> getData();
+    Flight::productService() -> add($data);
+});
