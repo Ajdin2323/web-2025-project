@@ -29,5 +29,9 @@ class ProductDao extends BaseDao {
     public function delete_product($id) {
         return $this -> delete($id);
     }
+
+    public function update_product($entity, $id) {
+        return $this -> update($entity, $id);
+    }
 }
 ?>

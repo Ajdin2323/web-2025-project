@@ -24,5 +24,9 @@ class ProductService extends BaseService{
         return $this -> dao -> delete_product($id);
     }
 
+    public function update_product($entity, $id) {
+        return $this -> dao -> update_product($entity, $id);
+    }
+
 }
 ?>

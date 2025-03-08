@@ -65,6 +65,7 @@ class BaseDao {
         $entity["id"] = $id;
         $statement = $this -> connection -> prepare($query);
         $statement -> execute($entity);
+        return Flight::json(["message" => $this -> table . " updated successfully!"]);
     }
 
     public function delete($id) {
