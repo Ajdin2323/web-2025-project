@@ -6,3 +6,7 @@ Flight::route('GET /category/@category_name(/@size(/@page))', function($category
 
     Flight::json(Flight::categoryService()->get_all_products_by_category($category_name, $size, $page));
 });
+
+Flight::route('GET /category/@id', function($id) {
+    Flight::json(Flight::categoryService() -> get_category_by_id($id));
+});

@@ -11,5 +11,9 @@ class CategoryService extends BaseService{
     public function get_all_products_by_category($category_name, $size, $page) {
         return $this -> dao -> get_all_products_by_category($category_name, $size, $page);
     }
+
+    public function get_category_by_id($id) {
+        return $this -> dao -> get_category_by_id($id);
+    }
 }
 ?>
