@@ -38,9 +38,24 @@ class CategoryDao extends BaseDao {
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function get_all_categories() {
+        return $this -> get();
+    }
+
     public function get_category_by_id($id) {
         return $this -> get_by_id($id);
     }
 
+    public function add_category($entity) {
+        return $this -> add($entity);
+    }
+
+    public function delete_category($id) {
+        return $this -> delete($id);
+    }
+
+    public function update_category($entity, $id) {
+        return $this -> update($entity, $id);
+    }
 }
 ?>
