@@ -17,19 +17,60 @@
 
   <body>
 
-    <nav role="navigation">
-      <ul>
-        <li><a href="#view_1">go to view 1</a></li>
-        <li><a href="#view_2">go to view 2</a></li>
-        <li><a href="#view_3">go to view 3</a></li>
+    <nav class="navbar navbar-expand-lg bg-primary-subtle" role="navigation">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#home">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="#home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#categories">Categories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#cart">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about-us">About Us</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            My Account
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#login">Login</a></li>
+            <li><a class="dropdown-item" href="#register">Register</a></li>
+            <li><a class="dropdown-item" href="#profile">View Profile</a></li>
+            <li><a class="dropdown-item" href="#dashboard">Dashboard</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </li>
       </ul>
-    </nav>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
 
     <main id="spapp" role="main">
-      <section id="view_2"></section>
-      <section id="view_3"><h1>view 3</h1></section>
+      <section id="categories"></section>
+      <section id="cart"></section>
+      <section id="about-us"></section>
+      <section id="login"></section>
+      <section id="register"></section>
+      <section id="dashboard"></section>
+      <section id="product-details"></section>
+      <section id="search-results"></section>
+      <section id="profile"></section>
       <section id="error_404"><h1>Page not found</h1></section>
-      <section id="view_1" data-load="view_1.html" ></section>
+      <section id="home" data-load="home.html"></section>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
