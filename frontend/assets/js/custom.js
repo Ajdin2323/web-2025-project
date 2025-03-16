@@ -15,6 +15,7 @@ $(document).ready(function() {
   app.route({ view: "product-details", load: "product-details.html" });
   app.route({ view: "search-results", load: "search-results.html" });
   app.route({ view: "profile", load: "profile.html" });
+  app.route({ view: "all-products", load: "all-products.html" });
   // run app
   app.run();
 
