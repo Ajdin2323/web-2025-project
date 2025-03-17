@@ -1,10 +1,9 @@
-$(document).ready(function() {
-
-  var app = $.spapp({pageNotFound : 'error_404'}); // initialize
+$(document).ready(function () {
+  var app = $.spapp({ pageNotFound: "error_404" }); // initialize
 
   // define routes
   app.route({
-    view: "home"
+    view: "home",
   });
   app.route({ view: "category", load: "category.html" });
   app.route({ view: "cart", load: "cart.html" });
@@ -18,5 +17,4 @@ $(document).ready(function() {
   app.route({ view: "all-products", load: "all-products.html" });
   // run app
   app.run();
-
 });
