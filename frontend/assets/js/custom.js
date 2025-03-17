@@ -6,7 +6,7 @@ $(document).ready(function() {
   app.route({
     view: "home"
   });
-  app.route({ view: "categories", load: "categories.html" });
+  app.route({ view: "category", load: "category.html" });
   app.route({ view: "cart", load: "cart.html" });
   app.route({ view: "about-us", load: "about-us.html" });
   app.route({ view: "login", load: "login.html" });
