@@ -28,3 +28,4 @@ Flight::route('PUT /category/@id', function($id) {
     $data = Flight::request()->data->getData();
     Flight::categoryService()->update_category($data, $id);
 });
+?>

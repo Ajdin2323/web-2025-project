@@ -14,4 +14,4 @@ Flight::route('GET /user/@id', function($id) {
 Flight::route('DELETE /user/@id', function($id) {
     Flight::userService() -> delete_user($id);
 });
-
+?>

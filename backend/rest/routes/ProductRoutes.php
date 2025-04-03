@@ -31,3 +31,4 @@ Flight::route('PUT /product/@id', function($id) {
     $data = Flight::request()->data->getData();
     Flight::productService()->update_product($data, $id);
 });
+?>
