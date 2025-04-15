@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `jewelry` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `jewelry`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: jewelry
@@ -28,12 +26,13 @@ CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
   `product_id` int NOT NULL,
   `user_id` int NOT NULL,
+  `quantity` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE,
   CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +65,7 @@ CREATE TABLE `favourites` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `favourites_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE,
   CONSTRAINT `favourites_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,10 +98,34 @@ CREATE TABLE `payment` (
   `id` int NOT NULL AUTO_INCREMENT,
   `price` double NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `cart_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `total_price` double NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `cart_id` (`cart_id`),
-  CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`)
+  KEY `payment_user_fk` (`user_id`),
+  CONSTRAINT `payment_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `payment_item`
+--
+
+DROP TABLE IF EXISTS `payment_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment_item` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `payment_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `unit_price` double NOT NULL,
+  `total_price` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `payment_id` (`payment_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `payment_item_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `payment_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -175,4 +198,4 @@ CREATE TABLE `verification_code` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-23 14:22:26
+-- Dump completed on 2025-04-15 21:45:41
