@@ -46,5 +46,13 @@ class ProductDao extends BaseDao {
     public function update_product($entity, $id) {
         return $this -> update($entity, $id);
     }
+
+    public function get_price($product_id) {
+        $query = $this -> connection -> prepare("SELECT price FROM " . $this -> table . " WHERE id = :product_id");
+        $query->bindParam(":product_id", $product_id);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['price'] : null;
+    }
 }
 ?>

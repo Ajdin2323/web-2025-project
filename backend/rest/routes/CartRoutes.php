@@ -56,17 +56,28 @@ Flight::route('DELETE /cart/@user_id/@product_id', function($user_id, $product_i
  * @OA\Get(
  *     path="/cart/{user_id}",
  *     tags={"cart"},
- *     summary="Get all products in a user's cart",
+ *     summary="Get all products in the user's cart",
+ *     description="Retrieves all products currently added to a user's cart.",
  *     @OA\Parameter(
  *         name="user_id",
  *         in="path",
  *         required=true,
- *         @OA\Schema(type="integer"),
- *         description="ID of the user"
+ *         description="ID of the user",
+ *         @OA\Schema(type="integer", example=1)
  *     ),
  *     @OA\Response(
  *         response=200,
- *         description="List of products in the user's cart"
+ *         description="List of products in user's cart",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 type="object",
+ *                 @OA\Property(property="product_id", type="integer", example=123),
+ *                 @OA\Property(property="quantity", type="integer", example=2),
+ *                 @OA\Property(property="product_name", type="string", example="Gold Necklace"),
+ *                 @OA\Property(property="price_per_unit", type="number", format="float", example=150.00)
+ *             )
+ *         )
  *     )
  * )
  */
