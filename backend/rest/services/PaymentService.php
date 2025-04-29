@@ -65,6 +65,35 @@ class PaymentService extends BaseService {
             "created_at" => $createdAt,
             "full_total_price" => $fullTotal
         ];
-    }      
+    }
+    
+    public function get_purchase_history_for_user($user_id) {
+        $raw_items = $this->dao->get_purchase_history_for_user($user_id);
+        if (empty($raw_items)) return [];
+    
+        $bills = [];
+    
+        foreach ($raw_items as $item) {
+            $payment_id = $item["payment_id"];
+            $createdAtFormatted = date("d.m.Y. H:i", strtotime($item["created_at"]));
+    
+            if (!isset($bills[$payment_id])) {
+                $bills[$payment_id] = [
+                    "items" => [],
+                    "created_at" => $createdAtFormatted,
+                    "full_total_price" => $item["full_total_price"]
+                ];
+            }
+    
+            $bills[$payment_id]["items"][] = [
+                "name" => $item["name"],
+                "unit_price" => $item["unit_price"],
+                "quantity" => $item["quantity"],
+                "total_price" => $item["total_price"]
+            ];
+        }
+    
+        return array_values($bills);
+    }    
 }
 ?>

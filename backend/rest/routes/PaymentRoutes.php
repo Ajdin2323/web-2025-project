@@ -99,4 +99,46 @@ Flight::route('GET /total_spent/@user_id', function($user_id) {
 Flight::route('GET /bill/@payment_id/@user_id', function($payment_id, $user_id) {
     Flight::json(Flight::paymentService()->get_bill_for_user($payment_id, $user_id));
 });
+
+/**
+ * @OA\Get(
+ *     path="/purchase_history/{user_id}",
+ *     tags={"payment"},
+ *     summary="Get a structured purchase history for a user",
+ *     description="Returns an array of receipts (bills), each containing purchased items, their quantities, unit and total prices, the full purchase total, and the formatted date of purchase.",
+ *     @OA\Parameter(
+ *         name="user_id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user whose purchase history is to be retrieved",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of purchase receipts for the user",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 type="object",
+ *                 @OA\Property(
+ *                     property="items",
+ *                     type="array",
+ *                     @OA\Items(
+ *                         type="object",
+ *                         @OA\Property(property="name", type="string", example="Zlatna narukvica"),
+ *                         @OA\Property(property="unit_price", type="number", format="float", example=150.00),
+ *                         @OA\Property(property="quantity", type="integer", example=2),
+ *                         @OA\Property(property="total_price", type="number", format="float", example=300.00)
+ *                     )
+ *                 ),
+ *                 @OA\Property(property="created_at", type="string", example="29.04.2025. 13:46"),
+ *                 @OA\Property(property="full_total_price", type="number", format="float", example=1020.00)
+ *             )
+ *         )
+ *     )
+ * )
+ */
+Flight::route('GET /purchase_history/@user_id', function($user_id) {
+    Flight::json(Flight::paymentService()->get_purchase_history_for_user($user_id));
+});
 ?>
