@@ -42,5 +42,29 @@ class PaymentService extends BaseService {
     public function get_total_spent_for_user($user_id) {
         return $this -> dao -> get_total_spent_for_user($user_id);
     }
+
+    public function get_bill_for_user($payment_id, $user_id) {
+        $items = $this->dao->get_bill_for_user($payment_id, $user_id);
+    
+        if (empty($items)) return null;
+    
+        $createdAt = date("d.m.Y. H:i", strtotime($items[0]["created_at"]));
+        $fullTotal = $items[0]["full_total_price"];
+    
+        $cleanItems = array_map(function($item) {
+            return [
+                "name" => $item["name"],
+                "unit_price" => $item["unit_price"],
+                "quantity" => $item["quantity"],
+                "total_price" => $item["total_price"]
+            ];
+        }, $items);
+    
+        return [
+            "items" => $cleanItems,
+            "created_at" => $createdAt,
+            "full_total_price" => $fullTotal
+        ];
+    }      
 }
 ?>

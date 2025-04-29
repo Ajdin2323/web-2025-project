@@ -53,4 +53,50 @@ Flight::route('POST /checkout/@user_id', function($user_id) {
 Flight::route('GET /total_spent/@user_id', function($user_id) {
     Flight::json(Flight::paymentService()->get_total_spent_for_user($user_id));
 });
+
+/**
+ * @OA\Get(
+ *     path="/bill/{payment_id}/{user_id}",
+ *     tags={"payment"},
+ *     summary="Get a detailed receipt for a user's payment",
+ *     description="Returns a receipt containing all items purchased, their quantities, prices, and total payment amount.",
+ *     @OA\Parameter(
+ *         name="payment_id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the payment",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Parameter(
+ *         name="user_id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user who made the payment",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Receipt details successfully fetched",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="items",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(property="name", type="string", example="Vjencani prsten"),
+ *                     @OA\Property(property="unit_price", type="number", format="float", example=1000),
+ *                     @OA\Property(property="quantity", type="integer", example=1),
+ *                     @OA\Property(property="total_price", type="number", format="float", example=1000)
+ *                 )
+ *             ),
+ *             @OA\Property(property="created_at", type="string", format="date-time", example="2025-04-27 21:58:47"),
+ *             @OA\Property(property="full_total_price", type="number", format="float", example=1130)
+ *         )
+ *     )
+ * )
+ */
+Flight::route('GET /bill/@payment_id/@user_id', function($payment_id, $user_id) {
+    Flight::json(Flight::paymentService()->get_bill_for_user($payment_id, $user_id));
+});
 ?>
