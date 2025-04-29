@@ -38,5 +38,9 @@ class PaymentService extends BaseService {
 
         return $payment_id;
     }
+
+    public function get_total_spent_for_user($user_id) {
+        return $this -> dao -> get_total_spent_for_user($user_id);
+    }
 }
 ?>

@@ -20,5 +20,13 @@ class PaymentDao extends BaseDao {
         $query->bindParam(":total_price", $total_price);
         $query->execute();
     }
+    
+    public function get_total_spent_for_user($user_id) {
+        $query = $this->connection->prepare("SELECT SUM(total_price) AS total_price FROM " . $this->table . " WHERE user_id = :user_id");
+        $query->bindParam(":user_id", $user_id);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return ["total_price" => $result ? (float) $result['total_price'] : 0];
+    }    
 }
 ?>
