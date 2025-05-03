@@ -21,15 +21,28 @@ class ProductDao extends BaseDao {
     public function search_products($keyword, $size, $page) {
         $size = (int) $size;
         $offset = (int) (($page - 1) * $size);
-
-        $query = $this->connection->prepare("SELECT * FROM " . $this->table . " WHERE name = :keyword OR color = :keyword OR material = :keyword OR size = :keyword LIMIT :size OFFSET :offset");
+    
+        $query = $this->connection->prepare("
+            SELECT * FROM " . $this->table . " 
+            WHERE (name LIKE :start_match OR name LIKE :word_match)
+               OR color = :keyword 
+               OR material = :keyword 
+               OR size = :keyword 
+            LIMIT :size OFFSET :offset
+        ");
+    
+        $startMatch = $keyword . '%';       
+        $wordMatch = '% ' . $keyword . '%';  
+    
         $query->bindValue(":size", $size, PDO::PARAM_INT);
         $query->bindValue(":offset", $offset, PDO::PARAM_INT);
-        $query -> bindParam(":keyword", $keyword);
-        
+        $query->bindValue(":start_match", $startMatch);
+        $query->bindValue(":word_match", $wordMatch);
+        $query->bindValue(":keyword", $keyword);
+    
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
-    }
+    }    
 
     public function get_product_by_id($id) {
         return $this -> get_by_id($id);
