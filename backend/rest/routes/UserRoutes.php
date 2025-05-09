@@ -102,4 +102,67 @@ Flight::route('GET /user/@id', function($id) {
 Flight::route('DELETE /user/@id', function($id) {
     Flight::userService()->delete_user($id);
 });
+
+/**
+ * @OA\Post(
+ *     path="/user/add_generic",
+ *     tags={"users"},
+ *     summary="Add a new user",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "email": "user@example.com",
+ *                 "name": "John Doe",
+ *                 "password": "securepassword",
+ *                 "is_admin": false
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User added successfully"
+ *     )
+ * )
+ */
+Flight::route('POST /user/add_generic', function() {
+    $data = Flight::request()->data->getData();
+    Flight::userService()->add($data);
+});
+
+/**
+ * @OA\Put(
+ *     path="/user/update_generic/{id}",
+ *     tags={"users"},
+ *     summary="Update user by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user to update",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "email": "newemail@example.com",
+ *                 "name": "Jane Doe",
+ *                 "password": "newsecurepassword",
+ *                 "is_admin": true
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User updated successfully"
+ *     )
+ * )
+ */
+Flight::route('PUT /user/update_generic/@id', function($id) {
+    $data = Flight::request()->data->getData();
+    Flight::userService()->update($data, $id);
+});
 ?>

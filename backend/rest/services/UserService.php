@@ -19,5 +19,13 @@ class UserService extends BaseService{
     public function delete_user($id) {
         return $this -> dao -> delete_user($id);
     }
+
+    public function add($entity) {
+        return $this -> dao -> add($entity);
+    }
+
+    public function update($entity, $id) {
+        return $this -> dao -> update_entity($entity, $id);
+    }
 }
 ?>

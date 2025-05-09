@@ -94,6 +94,26 @@ class PaymentService extends BaseService {
         }
     
         return array_values($bills);
-    }    
+    }  
+    
+    public function add($entity) {
+        return $this -> dao -> add($entity);
+    }
+
+    public function get() {
+        return $this -> dao -> get();
+    }
+
+    public function get_by_id($id) {
+        return $this -> dao -> get_by_id($id);
+    }
+
+    public function update($entity, $id) {
+        return $this -> dao -> update_entity($entity, $id);
+    }
+
+    public function delete($id) {
+        return $this -> dao -> delete($id);
+    }
 }
 ?>

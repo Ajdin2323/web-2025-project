@@ -141,4 +141,122 @@ Flight::route('GET /bill/@payment_id/@user_id', function($payment_id, $user_id) 
 Flight::route('GET /purchase_history/@user_id', function($user_id) {
     Flight::json(Flight::paymentService()->get_purchase_history_for_user($user_id));
 });
+
+/**
+ * @OA\Post(
+ *     path="/payment/add_generic",
+ *     tags={"payment"},
+ *     summary="Add a new payment",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "user_id": 1,
+ *                 "total_price": 1500
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment added successfully"
+ *     )
+ * )
+ */
+Flight::route('POST /payment/add_generic', function() {
+    $data = Flight::request()->data->getData();
+    Flight::paymentService()->add($data);
+});
+
+/**
+ * @OA\Get(
+ *     path="/payment/get_generic",
+ *     tags={"payment"},
+ *     summary="Get all payments",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of all payments"
+ *     )
+ * )
+ */
+Flight::route('GET /payment/get_generic', function() {
+    Flight::json(Flight::paymentService()->get());
+});
+
+/**
+ * @OA\Get(
+ *     path="/payment/get_generic/{id}",
+ *     tags={"payment"},
+ *     summary="Get a payment by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the payment",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment retrieved successfully"
+ *     )
+ * )
+ */
+Flight::route('GET /payment/get_generic/@id', function($id) {
+    Flight::json(Flight::paymentService()->get_by_id($id));
+});
+
+/**
+ * @OA\Put(
+ *     path="/payment/update_generic/{id}",
+ *     tags={"payment"},
+ *     summary="Update a payment by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the payment to update",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "user_id": 1,
+ *                 "total_price": 1600
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment updated successfully"
+ *     )
+ * )
+ */
+Flight::route('PUT /payment/update_generic/@id', function($id) {
+    $data = Flight::request()->data->getData();
+    Flight::paymentService()->update($data, $id);
+});
+
+/**
+ * @OA\Delete(
+ *     path="/payment/delete_generic/{id}",
+ *     tags={"payment"},
+ *     summary="Delete a payment by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the payment to delete",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment deleted successfully"
+ *     )
+ * )
+ */
+Flight::route('DELETE /payment/delete_generic/@id', function($id) {
+    Flight::paymentService()->delete($id);
+});
 ?>

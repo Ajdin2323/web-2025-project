@@ -25,5 +25,13 @@ class UserDao extends BaseDao {
     public function get_user_by_id($id) {
         return $this -> get_by_id($id);
     }
+
+    public function add($entity) {
+        return $this -> add($entity);
+    } 
+
+    public function update_entity($entity, $id) {
+        return $this -> update($entity, $id);
+    }
 }
 ?>

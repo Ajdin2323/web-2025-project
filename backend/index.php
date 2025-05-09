@@ -9,6 +9,8 @@ require dirname(__FILE__).'/rest/services/CategoryService.php';
 require dirname(__FILE__).'/rest/services/FavouritesService.php';
 require dirname(__FILE__).'/rest/services/CartService.php';
 require dirname(__FILE__).'/rest/services/PaymentService.php';
+require dirname(__FILE__).'/rest/services/PaymentItemService.php';
+
 
 //routes
 require_once dirname(__FILE__).'/rest/routes/ProductRoutes.php';
@@ -17,6 +19,7 @@ require_once dirname(__FILE__).'/rest/routes/CategoryRoutes.php';
 require_once dirname(__FILE__).'/rest/routes/FavouritesRoutes.php';
 require_once dirname(__FILE__).'/rest/routes/CartRoutes.php';
 require_once dirname(__FILE__).'/rest/routes/PaymentRoutes.php';
+require_once dirname(__FILE__).'/rest/routes/PaymentItemRoutes.php';
 
 //register
 Flight::register('productService', 'ProductService');
@@ -25,5 +28,6 @@ Flight::register('categoryService', 'CategoryService');
 Flight::register('favouritesService', 'FavouritesService');
 Flight::register('cartService', 'CartService');
 Flight::register('paymentService', 'PaymentService');
+Flight::register('paymentItemService', 'PaymentItemService');
 
 Flight::start();

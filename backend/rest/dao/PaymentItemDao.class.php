@@ -16,5 +16,25 @@ class PaymentItemDao extends BaseDao {
         $query->bindParam(":total_price", $total_price);
         $query->execute();
     }
+
+    public function add($entity) {
+        return $this -> add($entity);
+    }
+
+    public function get() {
+        return $this -> get();
+    }
+    
+    public function get_by_id($id) {
+        return $this -> get_by_id($id);
+    }
+
+    public function update_entity($entity, $id) {
+        return $this -> update($entity, $id);
+    }
+
+    public function delete($id) {
+        return $this -> delete($id);
+    }
 }
 ?>

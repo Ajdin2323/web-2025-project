@@ -84,4 +84,116 @@ Flight::route('DELETE /cart/@user_id/@product_id', function($user_id, $product_i
 Flight::route('GET /cart/@user_id', function($user_id) {
     Flight::json(Flight::cartService()->get_all_cart_products_for_user($user_id));
 });
+
+/**
+ * @OA\Post(
+ *     path="/cart/add_generic",
+ *     tags={"cart"},
+ *     summary="Add a generic cart entry",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={"user_id": 1, "product_id": 123, "quantity": 2}
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Generic cart entry added successfully"
+ *     )
+ * )
+ */
+Flight::route('POST /cart/add_generic', function() {
+    $data = Flight::request()->data->getData();
+    Flight::cartService()->add($data);
+});
+
+/**
+ * @OA\Get(
+ *     path="/cart/get_generic",
+ *     tags={"cart"},
+ *     summary="Get all generic cart entries",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of all generic cart entries"
+ *     )
+ * )
+ */
+Flight::route('GET /cart/get_generic', function() {
+    Flight::json(Flight::cartService()->get());
+});
+
+/**
+ * @OA\Get(
+ *     path="/cart/get_generic/{id}",
+ *     tags={"cart"},
+ *     summary="Get a specific generic cart entry by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer"),
+ *         description="ID of the cart entry"
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Cart entry found"
+ *     )
+ * )
+ */
+Flight::route('GET /cart/get_generic/@id', function($id) {
+    Flight::json(Flight::cartService()->get_by_id($id));
+});
+
+/**
+ * @OA\Put(
+ *     path="/cart/update_generic/{id}",
+ *     tags={"cart"},
+ *     summary="Update a generic cart entry by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer"),
+ *         description="ID of the cart entry to update"
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={"user_id": 1, "product_id": 123, "quantity": 3}
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Cart entry updated successfully"
+ *     )
+ * )
+ */
+Flight::route('PUT /cart/update_generic/@id', function($id) {
+    $data = Flight::request()->data->getData();
+    Flight::cartService()->update($data, $id);
+});
+
+/**
+ * @OA\Delete(
+ *     path="/cart/delete_generic/{id}",
+ *     tags={"cart"},
+ *     summary="Delete a generic cart entry by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer"),
+ *         description="ID of the cart entry to delete"
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Cart entry deleted successfully"
+ *     )
+ * )
+ */
+Flight::route('DELETE /cart/delete_generic/@id', function($id) {
+    Flight::cartService()->delete($id);
+});
 ?>
