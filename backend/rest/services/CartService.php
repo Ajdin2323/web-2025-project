@@ -21,7 +21,7 @@ class CartService extends BaseService{
     }
 
     public function add($entity) {
-        return $this -> dao -> add($entity);
+        return $this -> dao -> add_cart($entity);
     }
 
     public function get() {

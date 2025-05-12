@@ -97,7 +97,7 @@ class PaymentService extends BaseService {
     }  
     
     public function add($entity) {
-        return $this -> dao -> add($entity);
+        return $this -> dao -> add_payment($entity);
     }
 
     public function get() {

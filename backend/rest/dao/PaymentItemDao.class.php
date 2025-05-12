@@ -17,7 +17,7 @@ class PaymentItemDao extends BaseDao {
         $query->execute();
     }
 
-    public function add($entity) {
+    public function add_payment_item($entity) {
         return $this -> add($entity);
     }
 

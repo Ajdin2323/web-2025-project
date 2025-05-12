@@ -53,7 +53,7 @@ class CartDao extends BaseDao
         return $product_quantities;
     }
 
-    public function add($entity) {
+    public function add_cart($entity) {
         return $this -> add($entity);
     }
 

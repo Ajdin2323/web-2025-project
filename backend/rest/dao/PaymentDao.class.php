@@ -52,7 +52,7 @@ class PaymentDao extends BaseDao {
         return $query -> fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function add($entity) {
+    public function add_payment($entity) {
         return $this -> add($entity);
     }
 
