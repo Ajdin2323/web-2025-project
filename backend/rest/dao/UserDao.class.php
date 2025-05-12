@@ -26,12 +26,19 @@ class UserDao extends BaseDao {
         return $this -> get_by_id($id);
     }
 
-    public function add($entity) {
+    public function add_user($entity) {
         return $this -> add($entity);
     } 
 
     public function update_entity($entity, $id) {
         return $this -> update($entity, $id);
+    }
+
+    public function find_user_by_email($email) {
+        $query = $this->connection->prepare("SELECT * FROM " . $this -> table . " WHERE email = :email");
+        $query->bindValue(":email", $email);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>

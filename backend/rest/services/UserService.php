@@ -21,11 +21,58 @@ class UserService extends BaseService{
     }
 
     public function add($entity) {
-        return $this -> dao -> add($entity);
+        return $this -> dao -> add_user($entity);
     }
 
     public function update($entity, $id) {
         return $this -> dao -> update_entity($entity, $id);
+    }
+
+    public function register($data) {
+        $first_name = $data['first_name'] ?? '';
+        $last_name = $data['last_name'] ?? '';
+        $email = $data['email'] ?? '';
+        $password = $data['password'] ?? '';
+
+        if (empty($first_name)) {
+            Flight::json(['message' => 'First name is required'], 400);
+            return;
+        }
+
+        if (empty($last_name)) {
+            Flight::json(['message' => 'Last name is required'], 400);
+            return;
+        }
+
+        if (empty($password)) {
+            Flight::json(['message' => 'Password is required'], 400);
+            return;
+        }
+
+        if (strlen($password) < 8) {
+            Flight::json(['message' => 'Password must be at least 8 characters long'], 400);
+            return;
+        }
+
+        if (empty($email)) {
+            Flight::json(['message' => 'Email is required'], 400);
+            return;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !empty($this -> dao -> find_user_by_email($email))) {
+            Flight::json(['message' => 'Email is not valid or already taken'], 400);
+            return;
+        }
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        $data = $this -> dao -> add([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'password' => $hash,
+            'role' => 'USER'
+        ]);
     }
 }
 ?>

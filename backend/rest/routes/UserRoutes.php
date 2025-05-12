@@ -165,4 +165,41 @@ Flight::route('PUT /user/update_generic/@id', function($id) {
     $data = Flight::request()->data->getData();
     Flight::userService()->update($data, $id);
 });
+
+/**
+ * @OA\Post(
+ *     path="/user/register",
+ *     tags={"auth"},
+ *     summary="Register a new user",
+ *     description="Registers a new user with first name, last name, email, and password.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"first_name", "last_name", "email", "password"},
+ *             @OA\Property(property="first_name", type="string", example="John"),
+ *             @OA\Property(property="last_name", type="string", example="Doe"),
+ *             @OA\Property(property="email", type="string", format="email", example="john.doe@example.com"),
+ *             @OA\Property(property="password", type="string", format="password", example="strongpassword123")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User registered successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Registration successfull")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Invalid input",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Email is not valid or already taken")
+ *         )
+ *     )
+ * )
+ */
+Flight::route('POST /user/register', function() {
+    $data = Flight::request()->data->getData();
+    Flight::userService()->register($data);
+});
 ?>
