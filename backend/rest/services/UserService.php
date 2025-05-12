@@ -2,6 +2,8 @@
 require_once dirname(__FILE__).'/BaseService.php';
 require_once dirname(__FILE__).'/../dao/UserDao.class.php';
 
+use Firebase\JWT\JWT;
+
 class UserService extends BaseService{
 
     public function __construct(){
@@ -74,5 +76,40 @@ class UserService extends BaseService{
             'role' => 'USER'
         ]);
     }
+
+    public function login($data) {
+        $email = $data['email'] ?? '';
+        $password = $data['password'] ?? '';
+    
+        if (!isset($email)) {
+            Flight::json(['message' => 'Email is required'], 400);
+            return;
+        }
+    
+        if (!isset($password)) {
+            Flight::json(['message' => 'Password is required'], 400);
+            return;
+        }
+    
+        $user = $this->dao->find_user_by_email($email);
+        if (!$user || !password_verify($password, $user['password'])) {
+            Flight::json(['message' => 'Email or password is not correct'], 401);
+            return;
+        }
+    
+        $issuedAt = time();
+        $expirationTime = $issuedAt + (7 * 24 * 60 * 60);
+    
+        $payload = [
+            'id' => $user['id'],
+            'role' => $user['role'],
+            'iat' => $issuedAt,
+            'exp' => $expirationTime
+        ];
+    
+        $token = JWT::encode($payload, Config::JWT_SECRET(), 'HS256');
+    
+        Flight::json(['token' => $token]);
+    }    
 }
 ?>

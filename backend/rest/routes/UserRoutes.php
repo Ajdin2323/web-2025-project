@@ -202,4 +202,42 @@ Flight::route('POST /user/register', function() {
     $data = Flight::request()->data->getData();
     Flight::userService()->register($data);
 });
+
+/**
+ * @OA\Post(
+ *     path="/user/login",
+ *     tags={"auth"},
+ *     summary="User login",
+ *     description="Logs in a user and returns a JWT token if the credentials are valid.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             required={"email", "password"},
+ *             @OA\Property(property="email", type="string", example="user@example.com"),
+ *             @OA\Property(property="password", type="string", example="securepassword")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful login",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="token", type="string", example="eyJhbGciOiJIUzI1NiIsInR...")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Missing email or password"
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Invalid credentials"
+ *     )
+ * )
+ */
+Flight::route('POST /user/login', function() {
+    $data = Flight::request()->data->getData();
+    Flight::userService()->login($data);
+});
 ?>
