@@ -259,4 +259,44 @@ Flight::route('PUT /payment/update_generic/@id', function($id) {
 Flight::route('DELETE /payment/delete_generic/@id', function($id) {
     Flight::paymentService()->delete($id);
 });
+
+/**
+ * @OA\Get(
+ *     path="/purchase_history_for_all",
+ *     tags={"payment"},
+ *     summary="Get purchase history for all users",
+ *     description="Returns a list of all purchase history entries from the system.",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of all purchase history entries",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 type="object",
+ *                 example={
+ *                     "id": 1,
+ *                     "user_id": 5,
+ *                     "total": 299.99,
+ *                     "payment_date": "2025-05-13 14:35:22",
+ *                     "items": {
+ *                         {
+ *                             "product_id": 12,
+ *                             "quantity": 2,
+ *                             "price": 49.99
+ *                         },
+ *                         {
+ *                             "product_id": 8,
+ *                             "quantity": 1,
+ *                             "price": 199.99
+ *                         }
+ *                     }
+ *                 }
+ *             )
+ *         )
+ *     )
+ * )
+ */
+Flight::route('GET /purchase_history_for_all', function() {
+    Flight::json(Flight::paymentService()->get_purchase_history_for_all());
+});
 ?>

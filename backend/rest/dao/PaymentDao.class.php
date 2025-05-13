@@ -71,5 +71,14 @@ class PaymentDao extends BaseDao {
     public function delete_payment($id) {
         return $this -> delete($id);
     }
+
+    public function get_purchase_history_for_all() {
+        $query = $this->connection->prepare("SELECT p.name, pi.unit_price, pi.quantity, pi.total_price, pay.created_at, pay.total_price as full_total_price, pay.id as payment_id
+                                            FROM payment_item pi
+                                            JOIN product p ON pi.product_id = p.id
+                                            JOIN payment pay ON pi.payment_id = pay.id");
+        $query->execute();
+        return $query -> fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
