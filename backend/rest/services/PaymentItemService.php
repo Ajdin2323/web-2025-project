@@ -13,11 +13,11 @@ class PaymentItemService extends BaseService{
     }
 
     public function get() {
-        return $this -> dao -> get();
+        return $this -> dao -> get_payment_item();
     }
 
     public function get_by_id($id) {
-        return $this -> dao -> get_by_id($id);
+        return $this -> dao -> get_payment_item_by_id($id);
     }
 
     public function update($entity, $id) {
@@ -25,7 +25,7 @@ class PaymentItemService extends BaseService{
     }
 
     public function delete($id) {
-        return $this -> dao -> delete($id);
+        return $this -> dao -> delete_payment_item($id);
     }
 }
 ?>

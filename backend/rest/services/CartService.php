@@ -25,11 +25,11 @@ class CartService extends BaseService{
     }
 
     public function get() {
-        return $this -> dao -> get();
+        return $this -> dao -> get_cart();
     }
 
     public function get_by_id($id) {
-        return $this -> dao -> get_by_id($id);
+        return $this -> dao -> get_cart_by_id($id);
     }
 
     public function update($entity, $id) {
@@ -37,7 +37,7 @@ class CartService extends BaseService{
     }
 
     public function delete($id) {
-        return $this -> dao -> delete($id);
+        return $this -> dao -> delete_cart($id);
     }
 }
 ?>

@@ -56,11 +56,11 @@ class PaymentDao extends BaseDao {
         return $this -> add($entity);
     }
 
-    public function get() {
+    public function get_payment() {
         return $this -> get();
     }
     
-    public function get_by_id($id) {
+    public function get_payment_by_id($id) {
         return $this -> get_by_id($id);
     }
 
@@ -68,7 +68,7 @@ class PaymentDao extends BaseDao {
         return $this -> update($entity, $id);
     }
 
-    public function delete($id) {
+    public function delete_payment($id) {
         return $this -> delete($id);
     }
 }

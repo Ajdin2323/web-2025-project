@@ -57,11 +57,11 @@ class CartDao extends BaseDao
         return $this -> add($entity);
     }
 
-    public function get() {
+    public function get_cart() {
         return $this -> get();
     }
     
-    public function get_by_id($id) {
+    public function get_cart_by_id($id) {
         return $this -> get_by_id($id);
     }
 
@@ -69,7 +69,7 @@ class CartDao extends BaseDao
         return $this -> update($entity, $id);
     }
 
-    public function delete($id) {
+    public function delete_cart($id) {
         return $this -> delete($id);
     }
 }

@@ -39,11 +39,11 @@ class FavouritesDao extends BaseDao
         return $this -> add($entity);
     }
 
-    public function get() {
+    public function get_favourites() {
         return $this -> get();
     }
     
-    public function get_by_id($id) {
+    public function get_favourites_by_id($id) {
         return $this -> get_by_id($id);
     }
 
@@ -51,7 +51,7 @@ class FavouritesDao extends BaseDao
         return $this -> update($entity, $id);
     }
 
-    public function delete($id) {
+    public function delete_favourites($id) {
         return $this -> delete($id);
     }
 }
