@@ -14,6 +14,7 @@
     </div>
     <div class="form-group">
       <input
+        value="ajdinkaravdic"
         type="password"
         class="form-control"
         id="password"
@@ -30,4 +31,43 @@
       </p>
     </div>
   </form>
+  <script src="../assets/js/update-auth-ui.js"></script>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('form').on('submit', function (e) {
+      e.preventDefault();
+
+      const email = $('#email').val().trim();
+      const password = $('#password').val().trim();
+
+      if (!email || !password) {
+        alert('Please enter both email and password.');
+        return;
+      }
+
+      $.ajax({
+        url: '/web-2025-project/backend/user/login',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ email, password }),
+        success: function (response) {
+          localStorage.setItem('token', response.token);
+
+          alert('Login successful!');
+
+          if (typeof updateAuthUI === 'function') {
+            updateAuthUI();
+          }
+
+          window.location.href = '#home';
+        },
+        error: function (xhr) {
+          const errorMsg = xhr.responseJSON?.message || 'Login failed.';
+          alert(errorMsg);
+        }
+      });
+    });
+  });
+</script>
