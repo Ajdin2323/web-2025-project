@@ -44,3 +44,46 @@
     </p>
   </form>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('form').on('submit', function (e) {
+      e.preventDefault();
+
+      const firstName = $('#first-name').val().trim();
+      const lastName = $('#last-name').val().trim();
+      const email = $('#email').val().trim();
+      const password = $('#password').val().trim();
+
+      if (!firstName || !lastName || !email || !password) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return;
+      }
+
+      $.ajax({
+        url: '/web-2025-project/backend/user/register',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          password: password
+        }),
+        success: function () {
+          alert('Registration successful! Redirecting to login...');
+          window.location.href = '#login';
+        },
+        error: function (xhr) {
+          const msg = xhr.responseJSON?.message || 'Registration failed.';
+          alert(msg);
+        }
+      });
+    });
+  });
+</script>
