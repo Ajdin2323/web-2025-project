@@ -1,14 +1,14 @@
 $(document).ready(function () {
   Pagination.init({
     endpoint: "/web-2025-project/backend/products", 
-    containerSelector: ".row.row-cols-1",
+    containerSelector: ".all-products-cards",
     renderCallback: function (products) {
       products.forEach(function (product) {
         const card = `
           <div class="col">
             <div class="card h-100">
               <a href="#product-details">
-                <img src="assets/img/${product.image}.jpg" class="card-img-top" alt="${product.name}" />
+                <img src="${product.image}" class="card-img-top" alt="${product.name}" />
               </a>
               <div class="card-body">
                 <h5 class="card-title">${product.name}</h5>
@@ -26,7 +26,7 @@ $(document).ready(function () {
             </div>
           </div>
         `;
-        $(".row.row-cols-1").append(card);
+        $(".all-products-cards").append(card);
       });
     }
   });
