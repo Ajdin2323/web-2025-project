@@ -47,7 +47,13 @@ class UserDao extends BaseDao {
         $query = $this->connection->prepare("SELECT * FROM " . $this -> table . " WHERE email = :email");
         $query->bindValue(":email", $email);
         $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function set_deleted_status_true($id) {
+        $query = $this->connection->prepare("UPDATE " . $this -> table . " SET deleted = 1 WHERE id = :id");
+        $query->bindValue(":id", $id);
+        return $query->execute();
     }
 }
 ?>

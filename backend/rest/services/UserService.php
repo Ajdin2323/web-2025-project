@@ -61,7 +61,9 @@ class UserService extends BaseService{
             return;
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !empty($this -> dao -> find_user_by_email($email))) {
+        $users = $this -> dao -> find_user_by_email($email) ?? null;
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || (!empty($this -> dao -> find_user_by_email($email)) && $this -> is_user_active($users))) {
             Flight::json(['message' => 'Email is not valid or already taken'], 400);
             return;
         }
@@ -91,7 +93,9 @@ class UserService extends BaseService{
             return;
         }
     
-        $user = $this->dao->find_user_by_email($email);
+        $users = $this->dao->find_user_by_email($email) ?? null;
+        $user = $this->is_user_active($users);
+
         if (!$user || !password_verify($password, $user['password'])) {
             Flight::json(['message' => 'Email or password is not correct'], 401);
             return;
@@ -110,6 +114,15 @@ class UserService extends BaseService{
         $token = JWT::encode($payload, Config::JWT_SECRET(), 'HS256');
     
         Flight::json(['token' => $token]);
-    }    
+    }
+    
+    private function is_user_active($users) {
+    foreach ($users as $user) {
+        if (isset($user['deleted']) && $user['deleted'] == 0) {
+            return $user;
+            }
+        }
+        return false;
+    }
 }
 ?>
