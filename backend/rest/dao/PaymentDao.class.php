@@ -51,5 +51,34 @@ class PaymentDao extends BaseDao {
         $query->execute();
         return $query -> fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function add_payment($entity) {
+        return $this -> add($entity);
+    }
+
+    public function get_payment() {
+        return $this -> get();
+    }
+    
+    public function get_payment_by_id($id) {
+        return $this -> get_by_id($id);
+    }
+
+    public function update_entity($entity, $id) {
+        return $this -> update($entity, $id);
+    }
+
+    public function delete_payment($id) {
+        return $this -> delete($id);
+    }
+
+    public function get_purchase_history_for_all() {
+        $query = $this->connection->prepare("SELECT p.name, pi.unit_price, pi.quantity, pi.total_price, pay.created_at, pay.total_price as full_total_price, pay.id as payment_id
+                                            FROM payment_item pi
+                                            JOIN product p ON pi.product_id = p.id
+                                            JOIN payment pay ON pi.payment_id = pay.id");
+        $query->execute();
+        return $query -> fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
