@@ -23,6 +23,7 @@
  * )
  */
 Flight::route('POST /checkout/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     $payment_id = Flight::paymentService()->checkout_user($user_id);
     Flight::json(["payment_id" => $payment_id]);
 });
@@ -51,6 +52,7 @@ Flight::route('POST /checkout/@user_id', function($user_id) {
  * )
  */
 Flight::route('GET /total_spent/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::paymentService()->get_total_spent_for_user($user_id));
 });
 
@@ -97,6 +99,7 @@ Flight::route('GET /total_spent/@user_id', function($user_id) {
  * )
  */
 Flight::route('GET /bill/@payment_id/@user_id', function($payment_id, $user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::paymentService()->get_bill_for_user($payment_id, $user_id));
 });
 
@@ -139,6 +142,7 @@ Flight::route('GET /bill/@payment_id/@user_id', function($payment_id, $user_id) 
  * )
  */
 Flight::route('GET /purchase_history/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::paymentService()->get_purchase_history_for_user($user_id));
 });
 
@@ -164,6 +168,7 @@ Flight::route('GET /purchase_history/@user_id', function($user_id) {
  * )
  */
 Flight::route('POST /payment/add_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::paymentService()->add($data);
 });
@@ -180,6 +185,7 @@ Flight::route('POST /payment/add_generic', function() {
  * )
  */
 Flight::route('GET /payment/get_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::paymentService()->get());
 });
 
@@ -202,6 +208,7 @@ Flight::route('GET /payment/get_generic', function() {
  * )
  */
 Flight::route('GET /payment/get_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::paymentService()->get_by_id($id));
 });
 
@@ -234,6 +241,7 @@ Flight::route('GET /payment/get_generic/@id', function($id) {
  * )
  */
 Flight::route('PUT /payment/update_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::paymentService()->update($data, $id);
 });
@@ -257,6 +265,7 @@ Flight::route('PUT /payment/update_generic/@id', function($id) {
  * )
  */
 Flight::route('DELETE /payment/delete_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::paymentService()->delete($id);
 });
 
@@ -297,6 +306,7 @@ Flight::route('DELETE /payment/delete_generic/@id', function($id) {
  * )
  */
 Flight::route('GET /purchase_history_for_all', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::paymentService()->get_purchase_history_for_all());
 });
 ?>

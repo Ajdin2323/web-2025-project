@@ -25,6 +25,7 @@
  * )
  */
 Flight::route('POST /paymentItem/add_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::paymentItemService()->add($data);
 });
@@ -41,6 +42,7 @@ Flight::route('POST /paymentItem/add_generic', function() {
  * )
  */
 Flight::route('GET /paymentItem/get_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::paymentItemService()->get());
 });
 
@@ -63,6 +65,7 @@ Flight::route('GET /paymentItem/get_generic', function() {
  * )
  */
 Flight::route('GET /paymentItem/get_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::paymentItemService()->get_by_id($id));
 });
 
@@ -98,6 +101,7 @@ Flight::route('GET /paymentItem/get_generic/@id', function($id) {
  * )
  */
 Flight::route('PUT /paymentItem/update_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::paymentItemService()->update($data, $id);
 });
@@ -121,6 +125,7 @@ Flight::route('PUT /paymentItem/update_generic/@id', function($id) {
  * )
  */
 Flight::route('DELETE /paymentItem/delete_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::paymentItemService()->delete($id);
 });
 ?>

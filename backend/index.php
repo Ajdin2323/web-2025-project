@@ -2,6 +2,36 @@
 
 require 'vendor/autoload.php';
 
+//middleware
+require 'middleware/AuthMiddleware.php';
+Flight::register('authMiddleware', 'AuthMiddleware');
+
+Flight::route('/*', function() {
+   if(
+       strpos(Flight::request()->url, '/user/login') === 0 ||
+       strpos(Flight::request()->url, '/user/register') === 0 ||
+       strpos(Flight::request()->url, '/products') === 0 ||
+       strpos(Flight::request()->url, '/product') === 0 ||
+       strpos(Flight::request()->url, '/search') === 0 ||
+       strpos(Flight::request()->url, '/categories') === 0 ||
+       strpos(Flight::request()->url, '/products-by-category') === 0
+   ) {
+       return TRUE;
+   } else {
+       try {
+           $headers = getallheaders();
+           $token = $headers['Authentication'] ?? null;
+            if($token == null) {
+                Flight::halt(401, 'Forbidden');
+            }
+           if(Flight::authMiddleware()->verify_token($token))
+               return TRUE;
+       } catch (\Exception $e) {
+           Flight::halt(401, $e->getMessage());
+       }
+   }
+});
+
 //services
 require dirname(__FILE__).'/rest/services/ProductService.php';
 require dirname(__FILE__).'/rest/services/UserService.php';

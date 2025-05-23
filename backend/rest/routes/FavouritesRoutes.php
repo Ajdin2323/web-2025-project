@@ -21,6 +21,7 @@
  * )
  */
 Flight::route('POST /favourites', function() {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     $data = Flight::request()->data->getData();
     Flight::favouritesService()->add_to_favourites_for_user($data);
 });
@@ -51,6 +52,7 @@ Flight::route('POST /favourites', function() {
  * )
  */
 Flight::route('DELETE /favourites/@user_id/@product_id', function($user_id, $product_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::favouritesService()->delete_from_favourites_for_user($user_id, $product_id);
 });
 
@@ -73,6 +75,7 @@ Flight::route('DELETE /favourites/@user_id/@product_id', function($user_id, $pro
  * )
  */
 Flight::route('GET /favourites/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::favouritesService()->get_all_favourites_for_user($user_id));
 });
 
@@ -95,6 +98,7 @@ Flight::route('GET /favourites/@user_id', function($user_id) {
  * )
  */
 Flight::route('POST /favourites/add_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::favouritesService()->add($data);
 });
@@ -111,6 +115,7 @@ Flight::route('POST /favourites/add_generic', function() {
  * )
  */
 Flight::route('GET /favourites/get_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::favouritesService()->get());
 });
 
@@ -133,6 +138,7 @@ Flight::route('GET /favourites/get_generic', function() {
  * )
  */
 Flight::route('GET /favourites/get_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::favouritesService()->get_by_id($id));
 });
 
@@ -162,6 +168,7 @@ Flight::route('GET /favourites/get_generic/@id', function($id) {
  * )
  */
 Flight::route('PUT /favourites/update_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::favouritesService()->update($data, $id);
 });
@@ -185,6 +192,7 @@ Flight::route('PUT /favourites/update_generic/@id', function($id) {
  * )
  */
 Flight::route('DELETE /favourites/delete_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::favouritesService()->delete($id);
 });
 ?>

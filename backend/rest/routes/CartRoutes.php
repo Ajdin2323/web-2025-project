@@ -19,6 +19,7 @@
  * )
  */
 Flight::route('POST /cart', function() {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     $data = Flight::request()->data->getData();
     Flight::cartService()->add_to_cart_for_user($data);
 });
@@ -49,6 +50,7 @@ Flight::route('POST /cart', function() {
  * )
  */
 Flight::route('DELETE /cart/@user_id/@product_id', function($user_id, $product_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::cartService()->delete_from_cart_for_user($user_id, $product_id);
 });
 
@@ -82,6 +84,7 @@ Flight::route('DELETE /cart/@user_id/@product_id', function($user_id, $product_i
  * )
  */
 Flight::route('GET /cart/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::cartService()->get_all_cart_products_for_user($user_id));
 });
 
@@ -104,6 +107,7 @@ Flight::route('GET /cart/@user_id', function($user_id) {
  * )
  */
 Flight::route('POST /cart/add_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::cartService()->add($data);
 });
@@ -120,6 +124,7 @@ Flight::route('POST /cart/add_generic', function() {
  * )
  */
 Flight::route('GET /cart/get_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::cartService()->get());
 });
 
@@ -142,6 +147,7 @@ Flight::route('GET /cart/get_generic', function() {
  * )
  */
 Flight::route('GET /cart/get_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::cartService()->get_by_id($id));
 });
 
@@ -171,6 +177,7 @@ Flight::route('GET /cart/get_generic/@id', function($id) {
  * )
  */
 Flight::route('PUT /cart/update_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::cartService()->update($data, $id);
 });
@@ -194,6 +201,7 @@ Flight::route('PUT /cart/update_generic/@id', function($id) {
  * )
  */
 Flight::route('DELETE /cart/delete_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::cartService()->delete($id);
 });
 ?>

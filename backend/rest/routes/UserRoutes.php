@@ -53,6 +53,7 @@
  * )
  */
 Flight::route('GET /users(/@size(/@page))', function($size = null, $page = null) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $size = $size ?? 10;
     $page = $page ?? 1;
 
@@ -78,6 +79,7 @@ Flight::route('GET /users(/@size(/@page))', function($size = null, $page = null)
  * )
  */
 Flight::route('GET /user/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::userService()->get_user_by_id($id));
 });
 
@@ -100,6 +102,7 @@ Flight::route('GET /user/@id', function($id) {
  * )
  */
 Flight::route('DELETE /user/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::userService()->delete_user($id);
 });
 
@@ -127,6 +130,7 @@ Flight::route('DELETE /user/@id', function($id) {
  * )
  */
 Flight::route('POST /user/add_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::userService()->add($data);
 });
@@ -162,6 +166,7 @@ Flight::route('POST /user/add_generic', function() {
  * )
  */
 Flight::route('PUT /user/update_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     Flight::userService()->update($data, $id);
 });

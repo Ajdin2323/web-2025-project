@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/BaseService.php';
 require_once dirname(__FILE__).'/../dao/UserDao.class.php';
+require_once dirname(__FILE__).'/../../data/Roles.php';
 
 use Firebase\JWT\JWT;
 
@@ -75,7 +76,7 @@ class UserService extends BaseService{
             'last_name' => $last_name,
             'email' => $email,
             'password' => $hash,
-            'role' => 'USER'
+            'role' => Roles::USER,
         ]);
     }
 
