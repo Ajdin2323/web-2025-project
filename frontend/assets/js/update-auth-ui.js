@@ -24,7 +24,7 @@ function updateAuthUI() {
 $(document).ready(function () {
   updateAuthUI();
 
-  $(".logout-btn").on("click", function (e) {
+  $(".logout-btn").off("click").on("click", function (e) {
     e.preventDefault();
     localStorage.removeItem("token");
     alert("You have been logged out.");
@@ -32,3 +32,4 @@ $(document).ready(function () {
     window.location.href = "#login";
   });
 });
+
