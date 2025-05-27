@@ -51,5 +51,25 @@ class CartDao extends BaseDao
         }
     
         return $product_quantities;
-    }    
+    }
+
+    public function add_cart($entity) {
+        return $this -> add($entity);
+    }
+
+    public function get_cart() {
+        return $this -> get();
+    }
+    
+    public function get_cart_by_id($id) {
+        return $this -> get_by_id($id);
+    }
+
+    public function update_entity($entity, $id) {
+        return $this -> update($entity, $id);
+    }
+
+    public function delete_cart($id) {
+        return $this -> delete($id);
+    }
 }

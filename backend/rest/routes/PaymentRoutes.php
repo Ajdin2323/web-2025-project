@@ -23,6 +23,7 @@
  * )
  */
 Flight::route('POST /checkout/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     $payment_id = Flight::paymentService()->checkout_user($user_id);
     Flight::json(["payment_id" => $payment_id]);
 });
@@ -51,6 +52,7 @@ Flight::route('POST /checkout/@user_id', function($user_id) {
  * )
  */
 Flight::route('GET /total_spent/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::paymentService()->get_total_spent_for_user($user_id));
 });
 
@@ -97,6 +99,7 @@ Flight::route('GET /total_spent/@user_id', function($user_id) {
  * )
  */
 Flight::route('GET /bill/@payment_id/@user_id', function($payment_id, $user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::paymentService()->get_bill_for_user($payment_id, $user_id));
 });
 
@@ -139,6 +142,171 @@ Flight::route('GET /bill/@payment_id/@user_id', function($payment_id, $user_id) 
  * )
  */
 Flight::route('GET /purchase_history/@user_id', function($user_id) {
+    Flight::authMiddleware()->authorize_role(Roles::USER);
     Flight::json(Flight::paymentService()->get_purchase_history_for_user($user_id));
+});
+
+/**
+ * @OA\Post(
+ *     path="/payment/add_generic",
+ *     tags={"payment"},
+ *     summary="Add a new payment",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "user_id": 1,
+ *                 "total_price": 1500
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment added successfully"
+ *     )
+ * )
+ */
+Flight::route('POST /payment/add_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    $data = Flight::request()->data->getData();
+    Flight::paymentService()->add($data);
+});
+
+/**
+ * @OA\Get(
+ *     path="/payment/get_generic",
+ *     tags={"payment"},
+ *     summary="Get all payments",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of all payments"
+ *     )
+ * )
+ */
+Flight::route('GET /payment/get_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    Flight::json(Flight::paymentService()->get());
+});
+
+/**
+ * @OA\Get(
+ *     path="/payment/get_generic/{id}",
+ *     tags={"payment"},
+ *     summary="Get a payment by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the payment",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment retrieved successfully"
+ *     )
+ * )
+ */
+Flight::route('GET /payment/get_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    Flight::json(Flight::paymentService()->get_by_id($id));
+});
+
+/**
+ * @OA\Put(
+ *     path="/payment/update_generic/{id}",
+ *     tags={"payment"},
+ *     summary="Update a payment by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the payment to update",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "user_id": 1,
+ *                 "total_price": 1600
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment updated successfully"
+ *     )
+ * )
+ */
+Flight::route('PUT /payment/update_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    $data = Flight::request()->data->getData();
+    Flight::paymentService()->update($data, $id);
+});
+
+/**
+ * @OA\Delete(
+ *     path="/payment/delete_generic/{id}",
+ *     tags={"payment"},
+ *     summary="Delete a payment by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the payment to delete",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Payment deleted successfully"
+ *     )
+ * )
+ */
+Flight::route('DELETE /payment/delete_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    Flight::paymentService()->delete($id);
+});
+
+/**
+ * @OA\Get(
+ *     path="/purchase_history_for_all",
+ *     tags={"payment"},
+ *     summary="Get purchase history for all users",
+ *     description="Returns a list of all purchase history entries from the system.",
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of all purchase history entries",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(
+ *                 type="object",
+ *                 example={
+ *                     "id": 1,
+ *                     "user_id": 5,
+ *                     "total": 299.99,
+ *                     "payment_date": "2025-05-13 14:35:22",
+ *                     "items": {
+ *                         {
+ *                             "product_id": 12,
+ *                             "quantity": 2,
+ *                             "price": 49.99
+ *                         },
+ *                         {
+ *                             "product_id": 8,
+ *                             "quantity": 1,
+ *                             "price": 199.99
+ *                         }
+ *                     }
+ *                 }
+ *             )
+ *         )
+ *     )
+ * )
+ */
+Flight::route('GET /purchase_history_for_all', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    Flight::json(Flight::paymentService()->get_purchase_history_for_all());
 });
 ?>

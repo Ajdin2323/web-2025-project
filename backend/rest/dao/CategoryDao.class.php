@@ -8,7 +8,8 @@ class CategoryDao extends BaseDao {
 
     public function get_all_products_by_category($category_name, $size, $page) {
         $size = (int) $size;
-        $offset = (int) (($page - 1) * $size); 
+        $offset = (int) (($page - 1) * $size);
+        $limit = $size + 1; 
         
         $query = $this->connection->prepare("
         SELECT 
@@ -28,14 +29,22 @@ class CategoryDao extends BaseDao {
         JOIN " . $this->table . " c
         ON p.category_id = c.id
         WHERE c.name = :category_name
-        LIMIT :size OFFSET :offset
+        LIMIT :limit OFFSET :offset
     ");
-        $query->bindValue(":size", $size, PDO::PARAM_INT);
+        $query->bindValue(":limit", $limit, PDO::PARAM_INT);
         $query->bindValue(":offset", $offset, PDO::PARAM_INT);
         $query -> bindParam(":category_name", $category_name);
         
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $has_more = count($results) > $size;
+        $products = array_slice($results, 0, $size);
+
+        return [
+            'products' => $products,
+            'has_more' => $has_more
+        ];
     }
 
     public function get_all_categories() {

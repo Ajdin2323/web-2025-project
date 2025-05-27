@@ -53,6 +53,7 @@
  * )
  */
 Flight::route('GET /users(/@size(/@page))', function($size = null, $page = null) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     $size = $size ?? 10;
     $page = $page ?? 1;
 
@@ -78,6 +79,7 @@ Flight::route('GET /users(/@size(/@page))', function($size = null, $page = null)
  * )
  */
 Flight::route('GET /user/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::json(Flight::userService()->get_user_by_id($id));
 });
 
@@ -100,6 +102,147 @@ Flight::route('GET /user/@id', function($id) {
  * )
  */
 Flight::route('DELETE /user/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
     Flight::userService()->delete_user($id);
+});
+
+/**
+ * @OA\Post(
+ *     path="/user/add_generic",
+ *     tags={"users"},
+ *     summary="Add a new user",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "email": "user@example.com",
+ *                 "name": "John Doe",
+ *                 "password": "securepassword",
+ *                 "is_admin": false
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User added successfully"
+ *     )
+ * )
+ */
+Flight::route('POST /user/add_generic', function() {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    $data = Flight::request()->data->getData();
+    Flight::userService()->add($data);
+});
+
+/**
+ * @OA\Put(
+ *     path="/user/update_generic/{id}",
+ *     tags={"users"},
+ *     summary="Update user by ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the user to update",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "email": "newemail@example.com",
+ *                 "name": "Jane Doe",
+ *                 "password": "newsecurepassword",
+ *                 "is_admin": true
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User updated successfully"
+ *     )
+ * )
+ */
+Flight::route('PUT /user/update_generic/@id', function($id) {
+    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    $data = Flight::request()->data->getData();
+    Flight::userService()->update($data, $id);
+});
+
+/**
+ * @OA\Post(
+ *     path="/user/register",
+ *     tags={"auth"},
+ *     summary="Register a new user",
+ *     description="Registers a new user with first name, last name, email, and password.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"first_name", "last_name", "email", "password"},
+ *             @OA\Property(property="first_name", type="string", example="John"),
+ *             @OA\Property(property="last_name", type="string", example="Doe"),
+ *             @OA\Property(property="email", type="string", format="email", example="john.doe@example.com"),
+ *             @OA\Property(property="password", type="string", format="password", example="strongpassword123")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User registered successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Registration successfull")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Invalid input",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Email is not valid or already taken")
+ *         )
+ *     )
+ * )
+ */
+Flight::route('POST /user/register', function() {
+    $data = Flight::request()->data->getData();
+    Flight::userService()->register($data);
+});
+
+/**
+ * @OA\Post(
+ *     path="/user/login",
+ *     tags={"auth"},
+ *     summary="User login",
+ *     description="Logs in a user and returns a JWT token if the credentials are valid.",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             required={"email", "password"},
+ *             @OA\Property(property="email", type="string", example="user@example.com"),
+ *             @OA\Property(property="password", type="string", example="securepassword")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful login",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="token", type="string", example="eyJhbGciOiJIUzI1NiIsInR...")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Missing email or password"
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Invalid credentials"
+ *     )
+ * )
+ */
+Flight::route('POST /user/login', function() {
+    $data = Flight::request()->data->getData();
+    Flight::userService()->login($data);
 });
 ?>

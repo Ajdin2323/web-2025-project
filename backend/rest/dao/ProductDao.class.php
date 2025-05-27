@@ -8,19 +8,29 @@ class ProductDao extends BaseDao {
 
     public function get_all_products($size, $page) {
         $size = (int) $size;
-        $offset = (int) (($page - 1) * $size); 
+        $offset = (int) (($page - 1) * $size);
+        $limit = $size + 1;
     
-        $query = $this->connection->prepare("SELECT * FROM " . $this->table . " LIMIT :size OFFSET :offset");
-        $query->bindValue(":size", $size, PDO::PARAM_INT);
+        $query = $this->connection->prepare("SELECT * FROM " . $this->table . " LIMIT :limit OFFSET :offset");
+        $query->bindValue(":limit", $limit, PDO::PARAM_INT);
         $query->bindValue(":offset", $offset, PDO::PARAM_INT);
         
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $has_more = count($results) > $size;
+        $products = array_slice($results, 0, $size);
+
+        return [
+            'products' => $products,
+            'has_more' => $has_more
+        ];
     }
 
     public function search_products($keyword, $size, $page) {
         $size = (int) $size;
         $offset = (int) (($page - 1) * $size);
+        $limit = $size + 1;
     
         $query = $this->connection->prepare("
             SELECT * FROM " . $this->table . " 
@@ -28,20 +38,28 @@ class ProductDao extends BaseDao {
                OR color = :keyword 
                OR material = :keyword 
                OR size = :keyword 
-            LIMIT :size OFFSET :offset
+            LIMIT :limit OFFSET :offset
         ");
     
         $startMatch = $keyword . '%';       
         $wordMatch = '% ' . $keyword . '%';  
     
-        $query->bindValue(":size", $size, PDO::PARAM_INT);
+        $query->bindValue(":limit", $limit, PDO::PARAM_INT);
         $query->bindValue(":offset", $offset, PDO::PARAM_INT);
         $query->bindValue(":start_match", $startMatch);
         $query->bindValue(":word_match", $wordMatch);
         $query->bindValue(":keyword", $keyword);
     
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $has_more = count($results) > $size;
+        $products = array_slice($results, 0, $size);
+
+        return [
+            'products' => $products,
+            'has_more' => $has_more
+        ];
     }    
 
     public function get_product_by_id($id) {

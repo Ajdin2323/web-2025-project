@@ -34,5 +34,25 @@ class FavouritesDao extends BaseDao
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function add_favourites($entity) {
+        return $this -> add($entity);
+    }
+
+    public function get_favourites() {
+        return $this -> get();
+    }
+    
+    public function get_favourites_by_id($id) {
+        return $this -> get_by_id($id);
+    }
+
+    public function update_entity($entity, $id) {
+        return $this -> update($entity, $id);
+    }
+
+    public function delete_favourites($id) {
+        return $this -> delete($id);
+    }
 }
 ?>
