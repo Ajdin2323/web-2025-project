@@ -6,7 +6,7 @@ $(document).ready(function () {
       products.forEach(function (product) {
         const card = `
           <div class="col">
-            <div class="card h-100">
+            <div class="card h-100" data-id="${product.id}">
               <a href="#product-details">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}" />
               </a>
@@ -27,6 +27,11 @@ $(document).ready(function () {
           </div>
         `;
         $(".all-products-cards").append(card);
+      });
+
+      $('.card a').on('click', function () {
+        const productId = $(this).closest('.card').data('id');
+        localStorage.setItem('selectedProductId', productId);
       });
     }
   });
