@@ -2,10 +2,18 @@ $(document).ready(function () {
   var app = $.spapp({ pageNotFound: "error_404" }); // initialize
 
   // define routes
-  app.route({
-    view: "home",
-  });
-  app.route({ view: "category", load: "category.html" });
+ app.route({
+  view: "category",
+  load: "category.html",
+  onReady: function () {
+    const category = localStorage.getItem("selectedCategory");
+    if (category) {
+      loadCategoryProducts(category);
+      localStorage.removeItem("selectedCategory");
+    }
+  }
+});
+
   app.route({ view: "cart", load: "cart.html" });
   app.route({ view: "about-us", load: "about-us.html" });
   app.route({ view: "login", load: "login.html" });

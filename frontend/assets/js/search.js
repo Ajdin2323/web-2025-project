@@ -47,13 +47,25 @@ function loadSearchResults(keyword) {
 }
 
 $(document).ready(function () {
+  const $searchInput = $("#search-input");
+
   $("#search-form").on("submit", function (e) {
     e.preventDefault();
-    const keyword = $("#search-input").val().trim();
+    const keyword = $searchInput.val().trim();
     if (keyword !== "") {
       localStorage.setItem("searchKeyword", keyword);
       location.href = `#search-results`;
       loadSearchResults(keyword);
     }
   });
+
+  function handleHashChange() {
+    if (location.hash !== "#search-results") {
+      $searchInput.val("");
+    }
+  }
+
+  handleHashChange();
+
+  $(window).on("hashchange", handleHashChange);
 });
