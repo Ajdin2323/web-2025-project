@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 
-<h1 class="pt-5 px-5 pb-0">Welcome, [ User ]</h1>
+<h1 class="pt-5 px-5 pb-0 welcome-title">Welcome, [ User ]</h1>
 <ul class="nav nav-pills mb-3 px-5 pt-4" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
     <button
@@ -92,42 +92,17 @@
   </div>
 
   <div class="tab-pane fade" id="pills-history" role="tabpanel" aria-labelledby="pills-history-tab">
-    <h2 class="pb-4">Total spent: 650 BAM</h2>
-    <table id="purchaseHistoryTable" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Date Purchased</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><img src="assets/img/single-ring.webp" alt="Ring" width="100" height="100" class="object-fit-cover"></td>
-          <td>Gold Ring</td>
-          <td>200 BAM</td>
-          <td>2024-03-10</td>
-        </tr>
-        <tr>
-          <td><img src="assets/img/single-ring.webp" alt="Necklace" width="100" height="100" class="object-fit-cover"></td>
-          <td>Silver Necklace</td>
-          <td>150 BAM</td>
-          <td>2024-02-22</td>
-        </tr>
-        <tr>
-          <td><img src="assets/img/single-ring.webp" alt="Bracelet" width="100" height="100" class="object-fit-cover"></td>
-          <td>Diamond Bracelet</td>
-          <td>300 BAM</td>
-          <td>2024-01-15</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2 class="pb-4 total-spent">Total spent: 0 BAM</h2>
+  <div id="purchaseHistoryCards" class="d-flex flex-column gap-3">
+
   </div>
+</div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/user.js"></script>
 
 <script>
   $(document).ready(function () {
@@ -144,3 +119,22 @@
     });
   });
 </script>
+
+<style>
+  #purchaseHistoryCards .card {
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+#purchaseHistoryCards .card-header {
+  background-color: #f8f9fa;
+  font-size: 1rem;
+}
+
+#purchaseHistoryCards .list-group-item {
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+</style>
