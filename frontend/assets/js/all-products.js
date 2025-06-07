@@ -1,6 +1,6 @@
 $(document).ready(function () {
   Pagination.init({
-    endpoint: "/web-2025-project/backend/products", 
+    endpoint: "/web-2025-project/backend/products",
     containerSelector: ".all-products-cards",
     renderCallback: function (products) {
       products.forEach(function (product) {
@@ -29,10 +29,16 @@ $(document).ready(function () {
         $(".all-products-cards").append(card);
       });
 
-      $('.card a').on('click', function () {
-        const productId = $(this).closest('.card').data('id');
-        localStorage.setItem('selectedProductId', productId);
+      $(".card a").on("click", function () {
+        const productId = $(this).closest(".card").data("id");
+        localStorage.setItem("selectedProductId", productId);
       });
-    }
+
+      $(".btn-primary").on("click", function (e) {
+        e.preventDefault();
+        const productId = $(this).closest(".card").data("id");
+        addToCart(productId);
+      });
+    },
   });
 });

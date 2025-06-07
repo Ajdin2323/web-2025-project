@@ -64,7 +64,7 @@ class UserService extends BaseService{
 
         $users = $this -> dao -> find_user_by_email($email) ?? null;
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || (!empty($this -> dao -> find_user_by_email($email)) && $this -> is_user_active($users))) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || (empty($this -> dao -> find_user_by_email($email)) && $this -> is_user_active($users))) {
             Flight::json(['message' => 'Email is not valid or already taken'], 400);
             return;
         }

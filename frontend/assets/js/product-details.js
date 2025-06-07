@@ -26,7 +26,7 @@ function loadProductDetails() {
               alt="${product.name}"
               class="img-fluid rounded mb-3 product-image"
               id="mainImage"
-            style="max-height: 500px; object-fit: cover;"
+              style="max-height: 500px; object-fit: cover;"
             />
           </div>
           <div class="col-md-3">
@@ -51,7 +51,7 @@ function loadProductDetails() {
               <span class="h4 text-secondary">BAM</span>
             </div>
             <div class="d-flex flex-column">
-              <button class="btn btn-primary mb-3">Add to cart</button>
+              <button class="btn btn-primary mb-3" id="addToCartBtn">Add to cart</button>
               <button class="btn btn-warning mb-3">Add to favourites</button>
             </div>
           </div>
@@ -60,6 +60,11 @@ function loadProductDetails() {
       `;
 
       $(".product-details-container").html(html);
+
+      $("#addToCartBtn").on("click", function () {
+        const quantity = parseInt($("#quantity").val()) || 1;
+        addToCart(product.id, quantity);
+      });
     },
     error: function () {
       $(".product-details-container").html("<p>Error loading product.</p>");

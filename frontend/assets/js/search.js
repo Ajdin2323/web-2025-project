@@ -42,6 +42,11 @@ function loadSearchResults(keyword) {
         const productId = $(this).closest(".card").data("id");
         localStorage.setItem("selectedProductId", productId);
       });
+      $(".btn-primary").on("click", function (e) {
+        e.preventDefault();
+        const productId = $(this).closest(".card").data("id");
+        addToCart(productId);
+      });
     },
   });
 }

@@ -1,14 +1,18 @@
 function loadCategoryProducts(category) {
-    $(".category-title").text(`Category: ${category}`);
+  $(".category-title").text(`Category: ${category}`);
   const rowContainer = $(".products-by-category-cards");
   rowContainer.empty();
 
   Pagination.init({
-    endpoint: `/web-2025-project/backend/products-by-category/${encodeURIComponent(category.toLowerCase())}`,
+    endpoint: `/web-2025-project/backend/products-by-category/${encodeURIComponent(
+      category.toLowerCase()
+    )}`,
     containerSelector: ".products-by-category-cards",
     renderCallback: function (products) {
       if (products.length === 0) {
-        rowContainer.append(`<div class="col"><p>No products found in this category.</p></div>`);
+        rowContainer.append(
+          `<div class="col"><p>No products found in this category.</p></div>`
+        );
         return;
       }
 
@@ -40,7 +44,13 @@ function loadCategoryProducts(category) {
         const productId = $(this).closest(".card").data("id");
         localStorage.setItem("selectedProductId", productId);
       });
-    }
+
+      $(".btn-primary").on("click", function (e) {
+        e.preventDefault();
+        const productId = $(this).closest(".card").data("id");
+        addToCart(productId);
+      });
+    },
   });
 }
 
