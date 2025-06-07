@@ -4,10 +4,26 @@
   <div class="cart-total-container mb-1">
     <h4>Total: <span id="cart-total">0.00 KM</span></h4>
   </div>
-  <a href="#" class="btn btn-primary mb-4">Proceed to checkout</a>
+  <a href="#" class="btn btn-primary mb-4" id="checkout-btn" data-bs-toggle="offcanvas" data-bs-target="#checkoutSidebar">Proceed to checkout</a>
   <div
     class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
   ></div>
 </div>
+
+<!-- Checkout Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="checkoutSidebar" aria-labelledby="checkoutSidebarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="checkoutSidebarLabel">Checkout Summary</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div id="checkout-items" class="mb-3"></div>
+    <div class="mt-auto border-top pt-3">
+      <h5>Total: <span id="checkout-grand-total">0.00 KM</span></h5>
+      <a href="#" class="btn btn-success w-100 mt-3" id="confirm-payment-btn">Confirm Purchase</a>
+    </div>
+  </div>
+</div>
+
 
 <script src="assets/js/cart.js"></script>

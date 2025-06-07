@@ -30,7 +30,7 @@ function loadCategoryProducts(category) {
                 <p>Material: ${product.material}</p>
                 <p class="text-dark">${product.price} BAM</p>
                 <div class="d-flex flex-column justify-content-between gap-3">
-                  <a href="#" class="btn btn-primary">Add to cart</a>
+                  <a href="#" class="btn btn-primary add-to-cart-btn">Add to cart</a>
                   <a href="#" class="btn btn-warning">Add to favourites</a>
                 </div>
               </div>
@@ -45,7 +45,7 @@ function loadCategoryProducts(category) {
         localStorage.setItem("selectedProductId", productId);
       });
 
-      $(".btn-primary").on("click", function (e) {
+      $(".add-to-cart-btn").on("click", function (e) {
         e.preventDefault();
         const productId = $(this).closest(".card").data("id");
         addToCart(productId);
