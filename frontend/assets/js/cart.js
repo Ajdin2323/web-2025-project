@@ -265,6 +265,7 @@ function confirmPayment() {
       showReceipt(response.payment_id, user.id);
 
       loadCart();
+      loadPurchaseHistory(user.id, jwt);
 
       $("#checkout-items").empty();
       $("#checkout-grand-total").text("0.00 KM");

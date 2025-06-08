@@ -186,6 +186,7 @@ function addToFavourites(productId, quantity = 1) {
       product_id: productId
     }),
     success: function () {
+      loadFavourites(user.id, jwt);
       alert("Product added to favourites.");
     },
     error: function () {
