@@ -30,6 +30,7 @@ function loadUserProfile() {
       profileTab.find("h5").eq(2).text(`Role: ${u.role}`);
 
       loadPurchaseHistory(user.id, token);
+      loadFavourites(user.id, token); 
     },
     error: function () {
       alert("Failed to load user profile.");
@@ -90,6 +91,67 @@ function loadPurchaseHistory(userId, token) {
     error: function () {
       alert("Failed to load purchase history.");
     },
+  });
+}
+
+function loadFavourites(userId, token) {
+  $.ajax({
+    url: `/web-2025-project/backend/favourites/${userId}`,
+    method: "GET",
+    headers: {
+      Authentication: token,
+    },
+    success: function (favourites) {
+      const table = $('#favouritesTable');
+
+      if ($.fn.DataTable.isDataTable(table)) {
+        table.DataTable().clear().destroy();
+      }
+
+      const tbody = table.find("tbody");
+      tbody.empty();
+
+      if (favourites && favourites.length > 0) {
+        favourites.forEach(item => {
+          const priceDisplay = item.sale_price && item.sale_price > 0 ? item.sale_price : item.price;
+          const row = `
+            <tr data-id="${item.id}">
+              <td><img src="${item.image}" alt="${item.name}" width="100" height="100" class="object-fit-cover"></td>
+              <td>${item.name}</td>
+              <td>${priceDisplay} BAM</td>
+              <td><button class="btn btn-danger btn-sm remove-favourite-btn" data-id="${item.id}">Remove</button></td>
+            </tr>
+          `;
+          tbody.append(row);
+        });
+      }
+      table.DataTable();
+
+      $(".remove-favourite-btn").off("click").on("click", function () {
+        const favId = $(this).data("id");
+        removeFavourite(userId, favId, token);
+      });
+    },
+    error: function () {
+      alert("Failed to load favourites.");
+    },
+  });
+}
+
+
+function removeFavourite(userId, favId, token) {
+  $.ajax({
+    url: `/web-2025-project/backend/favourites/${userId}/${favId}`,
+    method: "DELETE",
+    headers: {
+      Authentication: token,
+    },
+    success: function () {
+      loadFavourites(userId, token);
+    },
+    error: function () {
+      alert("Failed to remove favourite.");
+    }
   });
 }
 
