@@ -52,7 +52,7 @@ function loadProductDetails() {
             </div>
             <div class="d-flex flex-column">
               <button class="btn btn-primary mb-3" id="addToCartBtn">Add to cart</button>
-              <button class="btn btn-warning mb-3">Add to favourites</button>
+              <button class="btn btn-warning mb-3" id="addToFavBtn">Add to favourites</button>
             </div>
           </div>
           <div class="col-md-1"></div>
@@ -64,6 +64,9 @@ function loadProductDetails() {
       $("#addToCartBtn").on("click", function () {
         const quantity = parseInt($("#quantity").val()) || 1;
         addToCart(product.id, quantity);
+      });
+      $("#addToFavBtn").on("click", function (e) {
+        addToFavourites(productId);
       });
     },
     error: function () {

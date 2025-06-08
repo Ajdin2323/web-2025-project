@@ -20,7 +20,7 @@ $(document).ready(function () {
                 </p>
                 <div class="d-flex flex-column justify-content-between gap-3">
                   <a href="#" class="btn btn-primary add-to-cart-btn">Add to cart</a>
-                  <a href="#" class="btn btn-warning">Add to favourites</a>
+                  <a href="#" class="btn btn-warning add-to-fav-btn">Add to favourites</a>
                 </div>
               </div>
             </div>
@@ -38,6 +38,12 @@ $(document).ready(function () {
         e.preventDefault();
         const productId = $(this).closest(".card").data("id");
         addToCart(productId);
+      });
+
+      $(".add-to-fav-btn").on("click", function (e) {
+        e.preventDefault();
+        const productId = $(this).closest(".card").data("id");
+        addToFavourites(productId);
       });
     },
   });

@@ -164,3 +164,32 @@ $(document).ready(function () {
     }
   });
 });
+
+function addToFavourites(productId, quantity = 1) {
+  const jwt = localStorage.getItem("token");
+  const user = decodeJWT(jwt);
+
+  if (!jwt || !user) {
+    alert("User not authenticated.");
+    return;
+  }
+
+  $.ajax({
+    url: "/web-2025-project/backend/favourites",
+    method: "POST",
+    contentType: "application/json",
+    headers: {
+      Authentication: jwt,
+    },
+    data: JSON.stringify({
+      user_id: user.id,
+      product_id: productId
+    }),
+    success: function () {
+      alert("Product added to favourites.");
+    },
+    error: function () {
+      alert("Failed to add product to favourites.");
+    },
+  });
+}
