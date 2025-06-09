@@ -79,7 +79,7 @@ Flight::route('GET /users(/@size(/@page))', function($size = null, $page = null)
  * )
  */
 Flight::route('GET /user/@id', function($id) {
-    Flight::authMiddleware()->authorize_role(Roles::ADMIN);
+    Flight::authMiddleware()->authorize_roles([Roles::USER, Roles::ADMIN]);
     Flight::json(Flight::userService()->get_user_by_id($id));
 });
 

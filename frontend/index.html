@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Blingho</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/spapp.css" />
@@ -23,7 +24,7 @@
       role="navigation"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="#home">Navbar</a>
+        <a class="navbar-brand" href="#home">Blingho</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -51,14 +52,14 @@
                 Categories
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#category">Rings</a></li>
-                <li><a class="dropdown-item" href="#category">Necklaces</a></li>
-                <li><a class="dropdown-item" href="#category">Bracelets</a></li>
-                <li><a class="dropdown-item" href="#category">Earrings</a></li>
-                <li><a class="dropdown-item" href="#category">Keychains</a></li>
-                <li><a class="dropdown-item" href="#category">Anklets</a></li>
-                <li><a class="dropdown-item" href="#category">Watches</a></li>
-                <li><a class="dropdown-item" href="#category">Other</a></li>
+                <li><a class="dropdown-item category-link" data-category="Rings" href="#category">Rings</a></li>
+                <li><a class="dropdown-item category-link" data-category="Necklaces" href="#category">Necklaces</a></li>
+                <li><a class="dropdown-item category-link" data-category="Bracelets" href="#category">Bracelets</a></li>
+                <li><a class="dropdown-item category-link" data-category="Earrings" href="#category">Earrings</a></li>
+                <li><a class="dropdown-item category-link" data-category="Keychains" href="#category">Keychains</a></li>
+                <li><a class="dropdown-item category-link" data-category="Anklets" href="#category">Anklets</a></li>
+                <li><a class="dropdown-item category-link" data-category="Watches" href="#category">Watches</a></li>
+                <li><a class="dropdown-item category-link" data-category="Other" href="#category">Other</a></li>
               </ul>
             </li>
             <li class="nav-item">
@@ -100,8 +101,9 @@
               </ul>
             </li>
           </ul>
-          <form class="d-flex" role="search" action="#search-results">
+          <form id="search-form" class="d-flex" role="search">
             <input
+              id="search-input"
               class="form-control me-2"
               type="search"
               placeholder="Search"
@@ -152,6 +154,9 @@
     <script src="assets/js/decode-jwt.js"></script>
     <script src="assets/js/custom.js"></script>
     <script src="assets/js/update-auth-ui.js"></script>
+    <script src="assets/js/pagination.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/products-by-category.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
