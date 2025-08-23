@@ -1,12 +1,12 @@
 $(document).ready(function () {
   Pagination.init({
-    endpoint: "/web-2025-project/backend/products", 
+    endpoint: "/web-2025-project/backend/products",
     containerSelector: ".all-products-cards",
     renderCallback: function (products) {
       products.forEach(function (product) {
         const card = `
           <div class="col">
-            <div class="card h-100">
+            <div class="card h-100" data-id="${product.id}">
               <a href="#product-details">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}" />
               </a>
@@ -19,8 +19,8 @@ $(document).ready(function () {
                   <p class="text-dark">${product.price} BAM</p>
                 </p>
                 <div class="d-flex flex-column justify-content-between gap-3">
-                  <a href="#" class="btn btn-primary">Add to cart</a>
-                  <a href="#" class="btn btn-warning">Add to favourites</a>
+                  <a href="#" class="btn btn-primary add-to-cart-btn">Add to cart</a>
+                  <a href="#" class="btn btn-warning add-to-fav-btn">Add to favourites</a>
                 </div>
               </div>
             </div>
@@ -28,6 +28,23 @@ $(document).ready(function () {
         `;
         $(".all-products-cards").append(card);
       });
-    }
+
+      $(".card a").on("click", function () {
+        const productId = $(this).closest(".card").data("id");
+        localStorage.setItem("selectedProductId", productId);
+      });
+
+      $(".add-to-cart-btn").on("click", function (e) {
+        e.preventDefault();
+        const productId = $(this).closest(".card").data("id");
+        addToCart(productId);
+      });
+
+      $(".add-to-fav-btn").on("click", function (e) {
+        e.preventDefault();
+        const productId = $(this).closest(".card").data("id");
+        addToFavourites(productId);
+      });
+    },
   });
 });
